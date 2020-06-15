@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types'
+import * as BooksAPI from '../BooksAPI'
 
 export default class Book extends Component {
 
@@ -11,8 +12,17 @@ export default class Book extends Component {
     handleMove = (shelf) => {
         this.props.handleMove(this.props.book, shelf)
     }
+
 	render() {
-		const book = this.props.book;
+        const book = this.props.book;
+        if(this.props.search){
+            this.props.books.forEach(b => {
+                if(b.id == book.id){
+                    book.shelf = b.shelf
+                }
+            });
+        }
+        const defaultVal = (book.shelf === 'currentlyReading' || book.shelf === 'wantToRead' || book.shelf === 'read') ? book.shelf : "none"
 		return (
 			<div>
 				<li key={book.id}>
@@ -27,11 +37,11 @@ export default class Book extends Component {
 								}}
 							/>
 							<div className="book-shelf-changer">
-								<select value={book.shelf} onChange={(event) => this.handleMove(event.target.value)}>
+								<select value={defaultVal} onChange={(event) => this.handleMove(event.target.value)}>
 									<option value="move" disabled>
 										Move to...
 									</option>
-									<option value="currentlyReading">Currently Reading</option>
+									<option value="currentlyReading" >Currently Reading</option>
 									<option value="wantToRead">Want to Read</option>
 									<option value="read">Read</option>
 									<option value="none">None</option>

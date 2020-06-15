@@ -45,7 +45,7 @@ export default class Search extends Component {
 					<div className="search-books-results">
                         <ol className="books-grid" >
                             {Array.isArray(showingBooks) && showingBooks.map((book) => (
-                                <Book book={book} key={book.id} handleMove={this.props.handleMove} />
+                                <Book books={this.props.books} book={book} key={book.id} handleMove={this.props.handleMove} search={true} />
                             ))}
                         </ol>
 					</div>
